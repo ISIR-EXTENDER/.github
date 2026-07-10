@@ -23,6 +23,7 @@ supervision tools.
   <a href="#at-a-glance">At A Glance</a> |
   <a href="#whats-new">What's New</a> |
   <a href="#repositories">Repositories</a> |
+  <a href="#current-state">Current State</a> |
   <a href="#project-map">Project Map</a> |
   <a href="#robots-in-use">Robots In Use</a> |
   <a href="#architecture">Architecture</a> |
@@ -42,7 +43,7 @@ supervision tools.
 | Need | Start here |
 | --- | --- |
 | Set up the full stack | [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) |
-| Build a new controller or algorithm | `controllers/sandbox_controller` |
+| Build a new controller or algorithm | [`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller) |
 | Work on robot abstractions | [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) |
 | Add tablet/backend ROS behavior | [`input_interfaces/tablet_interface`](https://github.com/ISIR-EXTENDER/input_interfaces) |
 | Add an operator screen or widget | [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) Sandbox V0.0 |
@@ -55,7 +56,7 @@ Current reference workflow:
 extender_workspace
   -> input_interfaces/tablet_interface
   -> extender_ui Sandbox V0.0
-  -> controllers + robot_interfaces
+  -> sandbox_controller + controllers + robot_interfaces
 ```
 
 ## What's New
@@ -73,51 +74,49 @@ Activity snapshot from default branches, last refreshed on **2026-07-10**.
 | [`bloom`](https://github.com/ISIR-EXTENDER/bloom) | `5db90c9` - add ROS topic status preflight diagnostics (#95) |
 | [`tools`](https://github.com/ISIR-EXTENDER/tools) | `800bed7` - add snake-related tooling updates (#4) |
 | [`controllers`](https://github.com/ISIR-EXTENDER/controllers) | `c6bbebc` - add snake mode to Cartesian velocity controller (#7) |
+| [`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller) | `0411619` - fix: use synced joint positions for feedback (#4) |
+| [`qontrol_controller`](https://github.com/ISIR-EXTENDER/qontrol_controller) | `389b651` - update capsule-related setting |
+| [`explorer_stack`](https://github.com/ISIR-EXTENDER/explorer_stack) | `c6af1cc` - refactor launch and controller setup (#27) |
+| [`hub`](https://github.com/ISIR-EXTENDER/hub) | `411a2f2` - ignore Python artifacts (#4) |
 
 > This dashboard is a manual snapshot. Check each repository for the live commit
 > history before starting integration work.
 
 ## Repositories
 
-Fast links to the main ISIR-EXTENDER repositories:
+Fast links:
 
-| Repository | Quick description |
-| --- | --- |
-| [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) | Start here. Workspace manifest, build guide, uv environment, and onboarding entry point. |
-| [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) | Robot abstraction layer, shared command/state interfaces, and kinematics boundary. |
-| [`controllers`](https://github.com/ISIR-EXTENDER/controllers) | ROS 2 controllers for velocity, position, impedance/shared-control workflows, and Sandbox prototyping. |
-| [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) | Joystick, SpaceMouse, tablet backend, and websocket-to-ROS routing packages. |
-| [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) | Current React tablet UI, screen builder, Sandbox V0.0, visual-servoing screens, and operator workflows. |
-| [`tools`](https://github.com/ISIR-EXTENDER/tools) | Shared messages and tools, including `extender_msgs`, `apriltag_detector`, and media helpers. |
-| [`visual_servoing`](https://github.com/ISIR-EXTENDER/visual_servoing) | Visual-servoing control loop and AprilTag-based experiments. |
-| [`explorer_stack`](https://github.com/ISIR-EXTENDER/explorer_stack) | Explorer robot hardware, simulation, descriptions, and robot-specific tooling. |
-| [`qontrol_controller`](https://github.com/ISIR-EXTENDER/qontrol_controller) | QP-solver-based controller work for Explorer-related experiments. |
-| [`hub`](https://github.com/ISIR-EXTENDER/hub) | Hub and digital output integration. |
-| [`bloom`](https://github.com/ISIR-EXTENDER/bloom) | WIP future monorepo for the UI/backend platform. |
+[`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) |
+[`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) |
+[`controllers`](https://github.com/ISIR-EXTENDER/controllers) |
+[`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller) |
+[`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) |
+[`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) |
+[`tools`](https://github.com/ISIR-EXTENDER/tools) |
+[`visual_servoing`](https://github.com/ISIR-EXTENDER/visual_servoing) |
+[`explorer_stack`](https://github.com/ISIR-EXTENDER/explorer_stack) |
+[`qontrol_controller`](https://github.com/ISIR-EXTENDER/qontrol_controller) |
+[`hub`](https://github.com/ISIR-EXTENDER/hub) |
+[`bloom`](https://github.com/ISIR-EXTENDER/bloom)
 
 ## Current State
 
-- The main integration workspace is
-  [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace).
-- The core controller stack is built around
-  [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) and
-  [`controllers`](https://github.com/ISIR-EXTENDER/controllers).
-- Core ROS repositories such as `robot_interfaces`, `controllers`,
-  `input_interfaces`, and `tools` are MIT-licensed.
-- The recommended app for new UI/backend/controller integration is
-  **Sandbox V0.0**.
-- Petanque packages remain available as legacy/example workflows, but new
-  development should not start from Petanque unless the task is explicitly
-  Petanque maintenance.
-- Visual-servoing work currently uses
-  [`visual_servoing`](https://github.com/ISIR-EXTENDER/visual_servoing),
-  [`tools/apriltag_detector`](https://github.com/ISIR-EXTENDER/tools), and the
-  Sandbox V0.0 visual-servoing screens.
-- The same architecture is used across Explorer, Kinova Gen3, and Franka FR3
-  experiments.
-- Ubuntu 22.04 and ROS 2 Humble are the documented baseline.
-- Ubuntu 24.04 and the next ROS 2 upgrade are an active migration target, but
-  they are not yet the reference setup.
+The current integration baseline is:
+
+| Area | Reference |
+| --- | --- |
+| Workspace | [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) |
+| Controllers | [`controllers`](https://github.com/ISIR-EXTENDER/controllers), [`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller), and [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) |
+| Tablet/backend flow | [`input_interfaces/tablet_interface`](https://github.com/ISIR-EXTENDER/input_interfaces) |
+| Frontend app | [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) Sandbox V0.0 |
+| Vision workflow | [`tools/apriltag_detector`](https://github.com/ISIR-EXTENDER/tools) and [`visual_servoing`](https://github.com/ISIR-EXTENDER/visual_servoing) |
+| Supported experiment platforms | Explorer, Kinova Gen3, Franka FR3 |
+| Documented baseline | Ubuntu 22.04, ROS 2 Humble, Python 3.10 |
+
+Petanque packages remain available as legacy/example workflows, but new
+development should start from Sandbox V0.0 unless the task is explicitly
+Petanque maintenance. Ubuntu 24.04 and the next ROS 2 upgrade are an active
+migration target, but they are not yet the reference setup.
 
 ## Project Map
 
@@ -128,8 +127,9 @@ repositories.
 | --- | --- | --- |
 | [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) | Main ROS 2 workspace manifest, build guide, shared Python environment, and onboarding entry point. | Not declared in repo root |
 | [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) | Robot abstraction layer and shared command/state interfaces used by controllers. | MIT |
-| [`controllers`](https://github.com/ISIR-EXTENDER/controllers) | ROS 2 control plugins, including Cartesian velocity, joint interpolation, shared control, and `sandbox_controller`. | MIT |
-| [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) | Input and backend packages, including joystick input and `tablet_interface`. | MIT |
+| [`controllers`](https://github.com/ISIR-EXTENDER/controllers) | ROS 2 control plugins, including Cartesian velocity, joint interpolation, and shared control. | MIT |
+| [`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller) | Lifecycle-aware sandbox controller used as the reference starting point for new controller algorithms. | MIT |
+| [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) | Input and backend packages, including `joystick_interface` and `tablet_interface`. | MIT |
 | [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) | React tablet frontend, screen builder, runtime apps, Sandbox V0.0, and visual-servoing supervision screens. | Not declared in repo root |
 | [`tools`](https://github.com/ISIR-EXTENDER/tools) | Shared utilities such as `extender_msgs`, `apriltag_detector`, media tools, and test publishers. | MIT |
 | [`visual_servoing`](https://github.com/ISIR-EXTENDER/visual_servoing) | Visual-servoing control loop and AprilTag-based workflow used by current experiments. | Apache-2.0 |
@@ -169,7 +169,7 @@ packages handle hardware details.
 | --- | --- | --- |
 | Workspace and setup | `extender_workspace` | Imports the project repositories, documents the build flow, and defines the shared Python environment. |
 | Robot abstraction | `robot_interfaces` | Provides shared robot command/state interfaces so controllers can run across supported platforms. |
-| Controllers | `controllers`, `qontrol_controller` | Implements velocity, position, impedance, shared-control, QP, and sandbox controller workflows. |
+| Controllers | `controllers`, `sandbox_controller`, `qontrol_controller` | Implements velocity, position, impedance, shared-control, QP, and sandbox controller workflows. |
 | Input and backend | `input_interfaces` | Converts joystick, SpaceMouse, and tablet websocket messages into ROS 2 commands and feedback. |
 | Operator UI | `extender_ui` | Provides runtime screens, Sandbox V0.0, screen builder, camera/video widgets, and supervision tools. |
 | Tools and perception | `tools`, `visual_servoing` | Provides shared messages, AprilTag detection, media helpers, and visual-servoing workflows. |
@@ -254,7 +254,7 @@ operator input or autonomous command
 | Explorer QP control path | `qontrol_controller` provides the Explorer QP-solver-based controller path with simulation/real robot launch options and SpaceNav/joystick/RViz integration switches. | Main launcher: `ros2 launch qontrol_controller auctus_general.launch.py`. Parameters include `use_simulation`, `gui`, `spacenav`, `joy`, `orthopus_control`, and `can_port`. |
 | Visual servoing supervision | `visual_servoing` consumes AprilTag detections and UI ON/SAVE commands, publishes velocity/error telemetry, and stores saved tag goals. | Topics include `/ui/visual_servoing/on`, `/ui/visual_servoing/save`, `/tag_detections`, `/visual_servoing/velocity_command`, and `/visual_servoing/error_TAGtoTAGd`. |
 | AprilTag detection | `tools/apriltag_detector` detects Tag36h11 markers, estimates 3D poses, transforms detections to target frames, and publishes compact tag goals. | Detector subscribes to `/image_raw` and `/camera_info`; publishes `/tag_detections` and `/shared_control/dynamic_goals` as `SharedControlGoalArray`. |
-| Sandbox V0.0 UI workflows | `extender_ui` provides the current integration app with runtime screens for teleoperation, webcam preview, snake control, visual-servoing controls, and topic monitoring. | Screens include `control_panel`, `snake_control`, `visual_servoing`, and `visual_servoing_monitor`. Topic monitors are used only for compact diagnostic messages, not image streams. |
+| Sandbox V0.0 UI workflows | `extender_ui` provides the current integration app with runtime screens for teleoperation, webcam preview, snake control, visual-servoing controls, and topic monitoring. | Screens include `sandbox_control`, `sandbox_teleop_config`, `control_panel`, `snake_control`, `visual_servoing`, and `visual_servoing_monitor`. Topic monitors are used only for compact diagnostic messages, not image streams. |
 | Snake control UI contract | The `snake_control` screen combines regular joystick velocity with a B1/B2 mode toggle and a hold-to-enable command. | Joystick commands keep publishing `/teleop_cmd`; the hold button publishes `/snake_control/enable` as `std_msgs/msg/Bool` true on press and false on release. |
 
 ### In Progress Or Needs Improvement
@@ -268,7 +268,8 @@ operator input or autonomous command
 
 ### Design Rules For New Controllers
 
-- Start from `sandbox_controller` when prototyping a new algorithm.
+- Start from [`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller)
+  when prototyping a new algorithm.
 - Keep command contracts explicit: topic names, message types, scaling, frame
   conventions, and enable/disable behavior must be documented.
 - Keep portable logic above robot-specific hardware details.
@@ -319,7 +320,7 @@ for the complete setup guide, uv usage, and troubleshooting notes.
 
 ### Start New Controller Work
 
-1. Start from `controllers/sandbox_controller`.
+1. Start from [`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller).
 2. Keep the controller contract compatible with `robot_interfaces`.
 3. Use Sandbox V0.0 for UI/backend/controller smoke tests.
 4. Build only the affected package while iterating:
@@ -359,6 +360,17 @@ npm run dev
 
 Then open the local Vite URL and choose **Sandbox V0.0**.
 
+### Use Sandbox V0.0 Screens
+
+| Screen | Use it for |
+| --- | --- |
+| `sandbox_control` | General sandbox teleoperation and UI smoke checks. |
+| `sandbox_teleop_config` | Teleoperation configuration and reusable widget examples. |
+| `control_panel` | Daily operation with webcam preview, Cartesian velocity controls, max velocity, gripper, visual-servoing controls, and compact telemetry. |
+| `snake_control` | Two-mode joystick control with B1/B2 mode toggle and hold-to-enable snake command. |
+| `visual_servoing` | Camera/RViz preview plus visual-servoing ON/OFF and save-tag controls. |
+| `visual_servoing_monitor` | Topic monitor for AprilTag detections, velocity commands, and servo error snapshots. |
+
 ### Work On Visual Servoing
 
 Use the current visual-servoing stack:
@@ -389,7 +401,7 @@ Commit `pyproject.toml` and `uv.lock` together.
 
 ## Maintainers And Contributors
 
-### Maintainer
+### Maintainers
 
 | Name | Role | GitHub | Website |
 | --- | --- | --- | --- |
@@ -419,6 +431,7 @@ to:
 - `extender_workspace`
 - `robot_interfaces`
 - `controllers`
+- `sandbox_controller`
 - `input_interfaces`
 - `extender_ui`
 - `tools`
@@ -454,7 +467,7 @@ Start from `extender_workspace`, then import repositories with `vcs import`.
 
 | Goal | Start here |
 | --- | --- |
-| New controller or algorithm | `controllers/sandbox_controller` |
+| New controller or algorithm | [`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller) |
 | Robot abstraction or message contract | `robot_interfaces` |
 | Tablet backend route or ROS topic bridge | `input_interfaces/tablet_interface` |
 | UI widget or operator screen | `extender_ui` Sandbox V0.0 |
@@ -599,6 +612,7 @@ The core ROS packages are MIT-licensed:
 
 - [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces)
 - [`controllers`](https://github.com/ISIR-EXTENDER/controllers)
+- [`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller)
 - [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces)
 - [`tools`](https://github.com/ISIR-EXTENDER/tools)
 
@@ -626,7 +640,7 @@ remains:
 extender_workspace
   -> input_interfaces/tablet_interface
   -> extender_ui Sandbox V0.0
-  -> controllers + robot_interfaces
+  -> sandbox_controller + controllers + robot_interfaces
 ```
 
 ## Research And Credits
