@@ -20,9 +20,9 @@ supervision tools.
 </p>
 
 <p align="center">
+  <a href="#repositories">Repositories</a> |
   <a href="#at-a-glance">At A Glance</a> |
   <a href="#whats-new">What's New</a> |
-  <a href="#repositories">Repositories</a> |
   <a href="#current-state">Current State</a> |
   <a href="#project-map">Project Map</a> |
   <a href="#robots-in-use">Robots In Use</a> |
@@ -37,6 +37,23 @@ supervision tools.
   <a href="#open-source-and-licensing">Open Source And Licensing</a> |
   <a href="#bloom-migration">Bloom Migration</a>
 </p>
+
+## Repositories
+
+Fast links:
+
+[`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) |
+[`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) |
+[`controllers`](https://github.com/ISIR-EXTENDER/controllers) |
+[`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller) |
+[`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) |
+[`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) |
+[`tools`](https://github.com/ISIR-EXTENDER/tools) |
+[`visual_servoing`](https://github.com/ISIR-EXTENDER/visual_servoing) |
+[`explorer_stack`](https://github.com/ISIR-EXTENDER/explorer_stack) |
+[`qontrol_controller`](https://github.com/ISIR-EXTENDER/qontrol_controller) |
+[`hub`](https://github.com/ISIR-EXTENDER/hub) |
+[`bloom`](https://github.com/ISIR-EXTENDER/bloom)
 
 ## At A Glance
 
@@ -65,10 +82,10 @@ Activity snapshot from default branches, last refreshed on **2026-07-10**.
 
 | Repository | Latest default-branch activity |
 | --- | --- |
-| [`.github`](https://github.com/ISIR-EXTENDER/.github) | `05ae532` - docs: update organization profile |
-| [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) | `51cb0cb` - chore: align workspace setup for sandbox development (#3) |
-| [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) | `c72c02a` - docs: update tablet interface readme (#20) |
-| [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) | `9c3d0db` - docs: update project readme (#29) |
+| [`.github`](https://github.com/ISIR-EXTENDER/.github) | This profile README update |
+| [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) | `da55bc9` - import sandbox controller repository (#4) |
+| [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) | `023db8b` - align sandbox controller repository (#21) |
+| [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) | `59c33e0` - align sandbox controller repository (#30) |
 | [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) | `1543180` - remove stale joint pose helper (#5) |
 | [`visual_servoing`](https://github.com/ISIR-EXTENDER/visual_servoing) | `bc6a33a` - first public visual-servoing package commit |
 | [`bloom`](https://github.com/ISIR-EXTENDER/bloom) | `5db90c9` - add ROS topic status preflight diagnostics (#95) |
@@ -81,23 +98,6 @@ Activity snapshot from default branches, last refreshed on **2026-07-10**.
 
 > This dashboard is a manual snapshot. Check each repository for the live commit
 > history before starting integration work.
-
-## Repositories
-
-Fast links:
-
-[`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) |
-[`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) |
-[`controllers`](https://github.com/ISIR-EXTENDER/controllers) |
-[`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller) |
-[`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) |
-[`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) |
-[`tools`](https://github.com/ISIR-EXTENDER/tools) |
-[`visual_servoing`](https://github.com/ISIR-EXTENDER/visual_servoing) |
-[`explorer_stack`](https://github.com/ISIR-EXTENDER/explorer_stack) |
-[`qontrol_controller`](https://github.com/ISIR-EXTENDER/qontrol_controller) |
-[`hub`](https://github.com/ISIR-EXTENDER/hub) |
-[`bloom`](https://github.com/ISIR-EXTENDER/bloom)
 
 ## Current State
 
