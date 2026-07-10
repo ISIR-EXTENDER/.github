@@ -20,6 +20,8 @@ supervision tools.
 </p>
 
 <p align="center">
+  <a href="#at-a-glance">At A Glance</a> |
+  <a href="#whats-new">What's New</a> |
   <a href="#repositories">Repositories</a> |
   <a href="#project-map">Project Map</a> |
   <a href="#robots-in-use">Robots In Use</a> |
@@ -34,6 +36,46 @@ supervision tools.
   <a href="#open-source-and-licensing">Open Source And Licensing</a> |
   <a href="#bloom-migration">Bloom Migration</a>
 </p>
+
+## At A Glance
+
+| Need | Start here |
+| --- | --- |
+| Set up the full stack | [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) |
+| Build a new controller or algorithm | `controllers/sandbox_controller` |
+| Work on robot abstractions | [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) |
+| Add tablet/backend ROS behavior | [`input_interfaces/tablet_interface`](https://github.com/ISIR-EXTENDER/input_interfaces) |
+| Add an operator screen or widget | [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) Sandbox V0.0 |
+| Work on AprilTag or visual servoing | [`tools/apriltag_detector`](https://github.com/ISIR-EXTENDER/tools) and [`visual_servoing`](https://github.com/ISIR-EXTENDER/visual_servoing) |
+| Work on Explorer hardware or simulation | [`explorer_stack`](https://github.com/ISIR-EXTENDER/explorer_stack) |
+
+Current reference workflow:
+
+```text
+extender_workspace
+  -> input_interfaces/tablet_interface
+  -> extender_ui Sandbox V0.0
+  -> controllers + robot_interfaces
+```
+
+## What's New
+
+Activity snapshot from default branches, last refreshed on **2026-07-10**.
+
+| Repository | Latest default-branch activity |
+| --- | --- |
+| [`.github`](https://github.com/ISIR-EXTENDER/.github) | `05ae532` - docs: update organization profile |
+| [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) | `51cb0cb` - chore: align workspace setup for sandbox development (#3) |
+| [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) | `c72c02a` - docs: update tablet interface readme (#20) |
+| [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) | `9c3d0db` - docs: update project readme (#29) |
+| [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) | `1543180` - remove stale joint pose helper (#5) |
+| [`visual_servoing`](https://github.com/ISIR-EXTENDER/visual_servoing) | `bc6a33a` - first public visual-servoing package commit |
+| [`bloom`](https://github.com/ISIR-EXTENDER/bloom) | `5db90c9` - add ROS topic status preflight diagnostics (#95) |
+| [`tools`](https://github.com/ISIR-EXTENDER/tools) | `800bed7` - add snake-related tooling updates (#4) |
+| [`controllers`](https://github.com/ISIR-EXTENDER/controllers) | `c6bbebc` - add snake mode to Cartesian velocity controller (#7) |
+
+> This dashboard is a manual snapshot. Check each repository for the live commit
+> history before starting integration work.
 
 ## Repositories
 
@@ -198,15 +240,22 @@ operator input or autonomous command
 
 ### What Works Today
 
-| Capability | Current state |
-| --- | --- |
-| Cartesian velocity control | Implemented for teleoperation workflows. Used as the main direct-control mode for joystick, SpaceMouse, tablet, and Sandbox V0.0 tests. |
-| Joint position / position interpolation | Implemented for smooth point-to-point commands and basic position-control workflows. |
-| Teleoperation basics | Working through `/teleop_cmd`, joystick mappings, tablet widgets, scaling, mode selection, and controller-side command handling. |
-| Franka impedance control | Available for Franka workflows through Franka-specific integration and controller abstractions. |
-| Kinova Gen3 impedance control | Available for Gen3 experiments through the shared architecture and robot-specific integration. |
-| Perimanipulation and shared control on Franka | Working research workflow for shared-control experiments on Franka. |
-| Sandbox controller | Working generic starting point for new control algorithms and UI/backend integration tests. |
+| Capability | What is available now | Examples / entry points |
+| --- | --- | --- |
+| Cartesian velocity teleoperation | `cartesian_velocity` converts `/teleop_cmd` into 6D Cartesian twist commands with filtering, rate limiting, base/EE frame options, and robot-specific configs. | Launch files include `franka_cartesian_velocity_teleop.launch.py`, `kinova_gen3_teleop_full_bringup.launch.py`, `full_gen3_teleop_bringup.launch.py`, and `explorer_cartesian_velocity_teleop.launch.py`. |
+| Joystick and SpaceMouse teleoperation | `joystick_interface` reads `/joy` and `/spacenav/joy`, applies configurable axis/sign/scale mappings, switches modes, and publishes `extender_msgs/msg/TeleopCommand` on `/teleop_cmd`. | Modes include `TRANSLATION_ROTATION`, `ROTATION`, `TRANSLATION`, and optional full 6DOF `BOTH`. Franka gripper joystick support is available through `franka_gripper_node`. |
+| Tablet teleoperation bridge | `tablet_interface` receives websocket `teleop_cmd` messages from `extender_ui`, validates/scales them, applies safety rules, and republishes `/teleop_cmd`. | Default websocket endpoint: `ws://localhost:8765/ws/control`. Sandbox V0.0 sends joystick, slider, mode, gripper, and typed ROS widget commands through this backend. |
+| Sandbox controller | `sandbox_controller` is a lifecycle-aware ROS 2 controller for new algorithms. It consumes `extender_msgs/msg/TeleopCommand`, forwards velocity commands through `robot_interfaces`, and publishes feedback. | Feedback topics include `~/velocity_command`, `~/ee_pose`, and `~/joint_pose`. Launch files include `sandbox_controller explorer.launch.py` and `sandbox_controller kinova.launch.py`. |
+| Joint position interpolation | `joint_position_interpolator` executes smooth joint-space point-to-point commands with configurable velocity limits and joint type awareness. | Explorer launch files include `explorer_real.launch.py` and `explorer_sim.launch.py`. Input topic: `/joint_position_desired` with named joint targets. |
+| Shared control / kinematic guides | `kinematic_guides_cartesian_velocity` blends user velocity with goal-directed assistance, supports static and dynamic goals, confidence tracking, RViz markers, and debug topics. | Dynamic goals use `/shared_control/dynamic_goals` with `extender_msgs/msg/SharedControlGoalArray`. Launch/config support exists for Franka, Kinova Gen3, and Explorer. |
+| Franka impedance and shared-control experiments | Franka workflows are supported through `robot_interfaces`, Franka-specific integration, Cartesian velocity control, impedance-oriented behavior, and shared-control/perimanipulation experiments. | Shared-control launch/config files include Franka-specific parameters and RViz goal visualization. Franka gripper control is available through joystick actions. |
+| Kinova Gen3 control experiments | Kinova Gen3 is supported for Cartesian velocity teleoperation, Sandbox controller workflows, shared-control configs, and visual-servoing experiments. | Kinova entry points include `kinova_gen3_teleop_full_bringup.launch.py`, `full_gen3_teleop_bringup.launch.py`, `shared_control_kinova.launch.py`, and `sandbox_controller kinova.launch.py`. |
+| Explorer simulation and hardware bringup | `explorer_stack` provides Explorer hardware/simulation packages, VESC/CAN integration, descriptions, input devices, user interfaces, and gripper support. | Current Explorer docs include virtual CAN simulation, `explorer_bringup hardware_base.launch.py`, `cartesian_control.launch.py`, and position-interface notes. |
+| Explorer QP control path | `qontrol_controller` provides the Explorer QP-solver-based controller path with simulation/real robot launch options and SpaceNav/joystick/RViz integration switches. | Main launcher: `ros2 launch qontrol_controller auctus_general.launch.py`. Parameters include `use_simulation`, `gui`, `spacenav`, `joy`, `orthopus_control`, and `can_port`. |
+| Visual servoing supervision | `visual_servoing` consumes AprilTag detections and UI ON/SAVE commands, publishes velocity/error telemetry, and stores saved tag goals. | Topics include `/ui/visual_servoing/on`, `/ui/visual_servoing/save`, `/tag_detections`, `/visual_servoing/velocity_command`, and `/visual_servoing/error_TAGtoTAGd`. |
+| AprilTag detection | `tools/apriltag_detector` detects Tag36h11 markers, estimates 3D poses, transforms detections to target frames, and publishes compact tag goals. | Detector subscribes to `/image_raw` and `/camera_info`; publishes `/tag_detections` and `/shared_control/dynamic_goals` as `SharedControlGoalArray`. |
+| Sandbox V0.0 UI workflows | `extender_ui` provides the current integration app with runtime screens for teleoperation, webcam preview, snake control, visual-servoing controls, and topic monitoring. | Screens include `control_panel`, `snake_control`, `visual_servoing`, and `visual_servoing_monitor`. Topic monitors are used only for compact diagnostic messages, not image streams. |
+| Snake control UI contract | The `snake_control` screen combines regular joystick velocity with a B1/B2 mode toggle and a hold-to-enable command. | Joystick commands keep publishing `/teleop_cmd`; the hold button publishes `/snake_control/enable` as `std_msgs/msg/Bool` true on press and false on release. |
 
 ### In Progress Or Needs Improvement
 
