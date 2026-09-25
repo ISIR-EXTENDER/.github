@@ -1,79 +1,86 @@
-<h1 align="center">ISIR-EXTENDER</h1>
+<h1 align="center">Extender</h1>
 
 <p align="center">
-  <strong>Assistive robot arms, controlled from a tablet, built as an open ROS 2 stack.</strong><br />
-  Institut des Systèmes Intelligents et de Robotique · Sorbonne Université / CNRS · Paris
+  <strong>Pilot a robotic arm to develop the autonomy of disabled people.</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ISIR-EXTENDER/bloom"><img src="https://raw.githubusercontent.com/ISIR-EXTENDER/bloom/main/docs/assets/readme/hero.png" alt="Bloom, the Extender operator interface, showing the Explorer Manager Drive screen with its STOP rail on a tablet" width="100%" /></a>
+  <img src="https://raw.githubusercontent.com/ISIR-EXTENDER/.github/main/profile/assets/orthopus.png" alt="A wheelchair user holding a bottle with the Orthopus Explorer arm. Around him, the interfaces Extender explores: muscle contraction, voice, brain activity, residual movement and gaze direction, feeding a robust and reliable controller." width="100%" />
 </p>
+
+<p align="center">
+  <a href="#the-project">The Project</a> ·
+  <a href="#what-this-organisation-hosts">What We Host</a> ·
+  <a href="#how-the-stack-fits-together">Architecture</a> ·
+  <a href="#repositories">Repositories</a> ·
+  <a href="#robots">Robots</a> ·
+  <a href="#quick-start">Quick Start</a> ·
+  <a href="#command-contract">Command Contract</a> ·
+  <a href="#legacy-architecture">Legacy</a> ·
+  <a href="#team">Team</a> ·
+  <a href="#contributing">Contributing</a> ·
+  <a href="#licensing">Licensing</a> ·
+  <a href="#press-and-links">Press</a>
+</p>
+
+## The Project
+
+| | |
+| --- | --- |
+| **Consortium** | [AUCTUS](https://auctus-team.gitlabpages.inria.fr/) @ Inria, [ISIR](https://www.isir.upmc.fr/) @ CNRS, [LAAS](https://www.laas.fr/) @ CNRS, [CETCOPRA](https://cetcopra.pantheonsorbonne.fr/), UCA @ CNRS, [Orthopus](https://orthopus.com/), ESEAN |
+| **Funding** | Défi "Transfert robotique", Appel à projets 2023, France 2030 (ANR / BPI France) |
+| **Duration** | 2024 – 2027 |
+
+EXTENDER develops interfaces that let people with a motor disability control a
+robotic arm mounted on their wheelchair, so they can carry out everyday tasks on
+their own. The arm is the **Orthopus Explorer**, and the project transfers
+collaborative-robotics know-how from research laboratories to a device meant to
+be marketed.
+
+The central challenge is adaptability: solutions must fit each user's
+sensory-motor and cognitive abilities. The consortium explores several
+interfaces, from tablets and joysticks to smart glasses, augmented-reality
+headsets, voice control, and muscle, movement or brain-activity sensors.
+Wheelchair users take part throughout, in design, in pre-clinical alpha and beta
+tests at ESEAN and Institut Pascal, and at the Cybathlon.
+
+The consortium brings together three robotics laboratories (ISIR, AUCTUS,
+LAAS), a start-up from the Handitech France 2030 programme (Orthopus), two
+operators for pre-clinical tests (ESEAN APF France handicap and Institut Pascal,
+UCA / CNRS), and a research unit on the uses of technology (CETCOPRA, Université
+Paris 1 Panthéon-Sorbonne).
+
+## What This Organisation Hosts
+
+`ISIR-EXTENDER` holds the **ROS 2 control stack** that ISIR develops for the
+project: the software between an operator's input device and the arm. It is
+built so the same code runs on the Orthopus Explorer and on a Kinova Gen3, in
+simulation or on hardware, and so that a new interface plugs in as one more
+command source rather than a rewrite.
 
 <p align="center">
   <img alt="ROS 2 Jazzy" src="https://img.shields.io/badge/ROS%202-Jazzy-31493f?style=for-the-badge" />
   <img alt="Ubuntu 24.04" src="https://img.shields.io/badge/Ubuntu-24.04-e95420?style=for-the-badge&logo=ubuntu&logoColor=white" />
   <img alt="C++ 17" src="https://img.shields.io/badge/C%2B%2B-17-00599c?style=for-the-badge&logo=cplusplus&logoColor=white" />
   <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-3776ab?style=for-the-badge&logo=python&logoColor=white" />
-  <img alt="TypeScript 5" src="https://img.shields.io/badge/TypeScript-5-3178c6?style=for-the-badge&logo=typescript&logoColor=white" />
-  <img alt="Node 24 LTS" src="https://img.shields.io/badge/Node-24%20LTS-5fa04e?style=for-the-badge&logo=nodedotjs&logoColor=white" />
   <img alt="Core packages MIT" src="https://img.shields.io/badge/core%20packages-MIT-ffd89b?style=for-the-badge&labelColor=31493f" />
 </p>
 
-<p align="center">
-  <a href="#start-here">Start Here</a> ·
-  <a href="#how-the-stack-fits-together">Architecture</a> ·
-  <a href="#repositories">Repositories</a> ·
-  <a href="#robots">Robots</a> ·
-  <a href="#bloom-the-operator-interface">Bloom</a> ·
-  <a href="#quick-start">Quick Start</a> ·
-  <a href="#command-contract">Command Contract</a> ·
-  <a href="#whats-new">What's New</a> ·
-  <a href="#team">Team</a> ·
-  <a href="#contributing">Contributing</a> ·
-  <a href="#licensing">Licensing</a> ·
-  <a href="#research-and-credits">Credits</a>
-</p>
-
-Extender is a research stack for **assistive manipulation**: a person with limited
-mobility drives a robot arm from a tablet, a joystick, or an assistive switch, and
-the arm helps with everyday tasks. The same code runs on the Orthopus **Explorer**
-arm and on a **Kinova Gen3**, in simulation or on hardware.
-
-The stack has three layers, each in its own repository, each replaceable:
-
 | Layer | What it does | Repository |
 | --- | --- | --- |
-| **Operator interface** | Builds accessible web screens and runs them in a kiosk with a latched STOP. | [`bloom`](https://github.com/ISIR-EXTENDER/bloom) |
-| **Command manager** | Sums every active Cartesian input, applies the selected mode, keeps the output bounded. | [`cartesian_manager`](https://github.com/ISIR-EXTENDER/cartesian_manager) |
-| **QP controller** | Turns the Cartesian command into joint motion under joint limits, using the Qontrol QP solver. | [`qontrol_controller`](https://github.com/ISIR-EXTENDER/qontrol_controller) |
-
-> [!NOTE]
-> **September 2026.** The stack moved to Ubuntu 24.04 and ROS 2 Jazzy, the
-> control path moved to `cartesian_manager` → `qontrol_controller`, and
-> **Bloom replaced `extender_ui`** as the operator interface. The retired
-> path is tagged and kept readable; see [Legacy](#legacy-paths).
-
-## Start Here
-
-| I want to… | Go to |
-| --- | --- |
-| Set up a development machine | [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) · [Quick Start](#quick-start) |
-| Drive a simulated arm in ten minutes | [Bloom · Getting started](https://github.com/ISIR-EXTENDER/bloom/blob/main/docs/tutorials/getting-started.md) |
-| Build an operator screen or an accessible input profile | [`bloom`](https://github.com/ISIR-EXTENDER/bloom) · [Build your first app](https://github.com/ISIR-EXTENDER/bloom/blob/main/docs/tutorials/build-your-first-app.md) |
-| Add a control mode, a shaper, or a named pose | [`cartesian_manager`](https://github.com/ISIR-EXTENDER/cartesian_manager) |
-| Change how the arm executes commands, add a QP task or constraint | [`qontrol_controller`](https://github.com/ISIR-EXTENDER/qontrol_controller) (branch `topic/isir_manager`) |
-| Map a new joystick or 3D mouse | [`input_interfaces/joystick_mapper`](https://github.com/ISIR-EXTENDER/input_interfaces/tree/main/joystick_mapper) |
-| Work on AprilTag detection or visual servoing | [`tools/apriltag_detector`](https://github.com/ISIR-EXTENDER/tools/tree/main/apriltag_detector) · [`input_interfaces/visual_servoing`](https://github.com/ISIR-EXTENDER/input_interfaces/tree/main/visual_servoing) |
-| Run the Petanque demonstrator | [`apps-petanque`](https://github.com/ISIR-EXTENDER/apps-petanque) · Bloom's Petanque app |
-| Report a bug in the operator interface | [Bloom issues](https://github.com/ISIR-EXTENDER/bloom/issues) |
+| **Command sources** | Turn a joystick, a 3D mouse, a tablet, a gamepad, an assistive switch or an AprilTag camera into a Cartesian velocity. | [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces), [`bloom`](https://github.com/ISIR-EXTENDER/bloom), [`tools`](https://github.com/ISIR-EXTENDER/tools) |
+| **Command manager** | Sums every active source, applies the selected control mode, keeps the output bounded and smooth. | [`cartesian_manager`](https://github.com/ISIR-EXTENDER/cartesian_manager) |
+| **QP controller** | Turns the Cartesian command into joint motion under joint limits, with the Qontrol QP solver from AUCTUS. | [`qontrol_controller`](https://github.com/ISIR-EXTENDER/qontrol_controller) |
+| **Robot** | Explorer hardware and Gazebo simulation from Orthopus; Kinova Gen3 description from Kinova. | external, imported by the workspace |
+| **Applications** | The Petanque demonstrator and the operator apps built on the stack. | [`apps-petanque`](https://github.com/ISIR-EXTENDER/apps-petanque), [`bloom`](https://github.com/ISIR-EXTENDER/bloom) |
 
 ## How The Stack Fits Together
 
 ```mermaid
 flowchart LR
     subgraph inputs["Command sources"]
-        bloom["Bloom<br/>tablet · keyboard · gamepad · switch"]
         joy["joystick_mapper<br/>joystick · 3D mouse"]
+        ui["Bloom<br/>tablet · gamepad · switch"]
         vs["visual_servoing<br/>AprilTag guidance"]
     end
     subgraph manager["cartesian_manager"]
@@ -88,8 +95,8 @@ flowchart LR
         explorer["Explorer<br/>hardware or Gazebo"]
         kinova["Kinova Gen3<br/>hardware or fake"]
     end
-    bloom -- "TwistStamped + mode_request" --> sum
     joy -- "TwistStamped + mode_request" --> sum
+    ui -- "TwistStamped + mode_request" --> sum
     vs -- "TwistStamped" --> sum
     lim -- "/cartesian_command" --> task
     sum -. "/joint_target_command (once)" .-> task
@@ -98,116 +105,72 @@ flowchart LR
     task -. "/ee_pose · /ee_velocity · /ee_jac · /joint_states" .-> inputs
 ```
 
-Three rules keep the layers honest:
+- **Inputs are summed, not arbitrated.** Every active source publishes a
+  unit-scale `geometry_msgs/msg/TwistStamped`; the manager adds them, so a
+  joystick and a visual-servoing loop can act together. A source that stops
+  streaming for 0.2 s drops out of the sum.
+- **Control modes are selected by name** on `/mode_request`: `geometric/both`
+  (passthrough), `geometric/jaco` (yaw keeps the tool facing the base),
+  `geometric/snake` (the tool axis bends into the direction of travel), and
+  `behaviour/joint_target/<pose>` for named poses such as `home`.
+- **Control authority stays in the QP.** The manager never moves a joint. A
+  named pose is published once as a joint target; `qontrol_controller` turns the
+  joint error into a bounded velocity task, so joint limits stay active while
+  homing.
+- **Frames are explicit.** The rotation part of a command is read in the frame
+  its header names: `base_link`, `effector_frame` or `hybrid_frame`. No TF
+  lookup. The manager normalises to unit scale; the controller's maximum
+  velocities set the real speed.
 
-- **Inputs are summed, not arbitrated.** Every active source publishes a unit-scale
-  `geometry_msgs/msg/TwistStamped`; the manager adds them, so a joystick and a
-  visual-servoing loop can act together. An input that stops streaming for
-  0.2 s drops out of the sum.
-- **Control authority stays in the QP.** `cartesian_manager` never moves a joint
-  itself. A named pose such as `behaviour/joint_target/home` is published once
-  as a `sensor_msgs/msg/JointState`; `qontrol_controller` turns the joint error
-  into a bounded joint-velocity task, so joint limits and constraints stay active
-  while homing. The manager then returns to passthrough on its own.
-- **ROS stays at the adapter boundary.** Bloom's frontend never imports ROS. Its
-  FastAPI backend validates, rate-limits and audits every command, and one
-  runtime session owns the arm at a time while STOP stays available to everyone.
-
-The only code adopted from the robot vendors is the **robot description**:
-Explorer's URDF, hardware interface and Gazebo model come from
-[ORTHOPUS-EXPLORER/explorer_stack](https://github.com/ORTHOPUS-EXPLORER/explorer_stack),
-and the Kinova description from `ros2_kortex`. Their own command paths are not
-used.
+The full topic and parameter contract is in the
+[`cartesian_manager` README](https://github.com/ISIR-EXTENDER/cartesian_manager#readme).
 
 ## Repositories
 
 ### Active
 
-| Repository | Role | Owner | License |
-| --- | --- | --- | --- |
-| [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) | Entry point: `extender.repos` manifest, `setup_workspace.sh`, shared `uv` Python environment, build guide, Jazzy migration notes. | Susana, Mégane | Not declared |
-| [`bloom`](https://github.com/ISIR-EXTENDER/bloom) | Operator interface: visual Builder, kiosk Runtime, accessible input profiles, FastAPI backend, ROS adapters, Explorer and Kinova Manager apps. | Susana | MIT |
-| [`cartesian_manager`](https://github.com/ISIR-EXTENDER/cartesian_manager) | Manager between command sources and the controller: input summing, `both` / `jaco` / `snake` shapers, named joint targets, normalisation, rate limiting. | Mégane | Not declared |
-| [`qontrol_controller`](https://github.com/ISIR-EXTENDER/qontrol_controller) | `ros2_control` controller on the INRIA [Qontrol](https://auctus-team.gitlabpages.inria.fr/components/control/qontrol/index.html) QP solver and Pinocchio. The workspace builds branch `topic/isir_manager`. Private. | Esteban Cosserat, Mégane | GPL-3.0 |
-| [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) | `joystick_mapper` (joystick and 3D mouse to twist and mode requests), `visual_servoing` (AprilTag-guided twist), `camera_interface` (gripper camera bringup). | Mégane, Robin, Susana | MIT |
-| [`tools`](https://github.com/ISIR-EXTENDER/tools) | `apriltag_detector`, `extender_msgs`, `hub` (Arduino I/O bridge), `signal_processing`, `mediapipe_mocap`, `offline_media_publisher`, `dynamic_parameters_identification`. | Susana, Mégane, Etienne, Robin | MIT |
-| [`apps-petanque`](https://github.com/ISIR-EXTENDER/apps-petanque) | Petanque demonstrator: bringup, messages, state machine, trajectories. Rebased onto `cartesian_manager` in September 2026. Private. | Team | Not declared |
+| Repository | Role | License |
+| --- | --- | --- |
+| [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) | Entry point: `extender.repos` manifest, `setup_workspace.sh`, shared Python environment, build guide, Jazzy migration notes. | Not declared |
+| [`cartesian_manager`](https://github.com/ISIR-EXTENDER/cartesian_manager) | Command manager: input summing, `both` / `jaco` / `snake` shapers, named joint targets, normalisation, rate limiting. | Not declared |
+| [`qontrol_controller`](https://github.com/ISIR-EXTENDER/qontrol_controller) | `ros2_control` controller on the [Qontrol](https://auctus-team.gitlabpages.inria.fr/components/control/qontrol/index.html) QP solver and Pinocchio. The workspace builds branch `topic/isir_manager`. Private. | GPL-3.0 |
+| [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) | `joystick_mapper` (joystick and 3D mouse), `visual_servoing` (AprilTag-guided motion), `camera_interface` (gripper camera). | MIT |
+| [`tools`](https://github.com/ISIR-EXTENDER/tools) | `apriltag_detector`, `extender_msgs`, `hub` (Arduino I/O bridge), `signal_processing`, `mediapipe_mocap`, `offline_media_publisher`, `dynamic_parameters_identification`. | MIT |
+| [`bloom`](https://github.com/ISIR-EXTENDER/bloom) | Operator interface: a builder for accessible robot screens and a kiosk runtime with a latched STOP, connected to the stack through a policy-checked backend. | MIT |
+| [`apps-petanque`](https://github.com/ISIR-EXTENDER/apps-petanque) | Petanque demonstrator for the PEPR Robotics programme: bringup, messages, state machine, trajectories. Private. | Not declared |
 
-### Robot descriptions (external, imported by the workspace)
+### Robot descriptions, imported by the workspace
 
 | Repository | Branch | Used for |
 | --- | --- | --- |
-| [ORTHOPUS-EXPLORER/explorer_stack](https://github.com/ORTHOPUS-EXPLORER/explorer_stack) | `develop` | Explorer description, hardware interface, VESC/CAN drivers, Gazebo simulation, `explorer_input_devices`. |
-| [Kinovarobotics/ros2_kortex](https://github.com/Kinovarobotics/ros2_kortex) | `jazzy` | `kortex_description` for the Gen3 URDF. Imported only with `WITH_KORTEX=1`. |
-| [PickNikRobotics/ros2_robotiq_gripper](https://github.com/PickNikRobotics/ros2_robotiq_gripper) | `main` | `robotiq_description` for the 2F-85 gripper the Gen3 URDF includes. |
+| [ORTHOPUS-EXPLORER/explorer_stack](https://github.com/ORTHOPUS-EXPLORER/explorer_stack) | `develop` | Explorer description, hardware interface, VESC/CAN drivers, Gazebo simulation, input devices. |
+| [Kinovarobotics/ros2_kortex](https://github.com/Kinovarobotics/ros2_kortex) | `jazzy` | `kortex_description` for the Gen3 URDF. Imported with `WITH_KORTEX=1`. |
+| [PickNikRobotics/ros2_robotiq_gripper](https://github.com/PickNikRobotics/ros2_robotiq_gripper) | `main` | `robotiq_description` for the 2F-85 gripper. |
 
-### Legacy paths
+### Legacy
 
-Kept readable and buildable for the record and for rollback. Do not start new
-work here.
+Kept readable for the record and for rollback; not a starting point for new
+work. See [Legacy architecture](#legacy-architecture) for what these did and how
+to run them.
 
-| Repository | Status | Last supported reference |
-| --- | --- | --- |
-| [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) | Retired React tablet app, replaced by Bloom. | tag `v1.0.0` |
-| [`input_interfaces/tablet_interface`](https://github.com/ISIR-EXTENDER/input_interfaces/tree/main/tablet_interface) | Retired websocket backend of `extender_ui`. The other packages in that repository are current. | tag `tablet_interface/v1.0.0` |
-| [`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller) | Previous reference controller on the `/teleop_cmd` contract. | `main` |
-| [`controllers`](https://github.com/ISIR-EXTENDER/controllers) · [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) | Previous controller plugins (Cartesian velocity, joint interpolation, kinematic guides, snake demo) and their robot abstraction layer. Marked `COLCON_IGNORE` in the workspace. | `main` |
-| [`ISIR-EXTENDER/explorer_stack`](https://github.com/ISIR-EXTENDER/explorer_stack) | Humble-era fork of the Explorer stack. The workspace now imports ORTHOPUS `develop` directly. | `dev/ts/mode_0` |
+| Repository | What it was |
+| --- | --- |
+| [`controllers`](https://github.com/ISIR-EXTENDER/controllers) | `ros2_control` controller plugins: `cartesian_velocity`, `kinematic_guides_cartesian_velocity` (shared control), `joint_position_interpolator`, and a snake demo. |
+| [`robot_interfaces`](https://github.com/ISIR-EXTENDER/robot_interfaces) | Hardware interface library with Pinocchio kinematics and one Cartesian-velocity interface per robot: Franka, Kinova Gen3, Explorer. |
+| [`sandbox_controller`](https://github.com/ISIR-EXTENDER/sandbox_controller) | Lifecycle controller template for new algorithms on the `/teleop_cmd` contract. |
+| [`input_interfaces/joystick_interface`](https://github.com/ISIR-EXTENDER/input_interfaces/tree/main/joystick_interface) | Joystick and SpaceMouse to `/teleop_cmd`, replaced by `joystick_mapper`. |
+| [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) · [`tablet_interface`](https://github.com/ISIR-EXTENDER/input_interfaces/tree/main/tablet_interface) | The previous tablet app and its websocket backend, tagged `v1.0.0` and `tablet_interface/v1.0.0`. |
+| [`ISIR-EXTENDER/explorer_stack`](https://github.com/ISIR-EXTENDER/explorer_stack) | Humble-era fork of the Explorer stack, branch `dev/ts/mode_0`. |
 
 ## Robots
 
-| Robot | Role | Simulation | Bringup |
+| Robot | Role in the project | Simulation | Bringup |
 | --- | --- | --- | --- |
-| **Orthopus Explorer** | Main demonstrator. Custom assistive arm, CAN/VESC actuators, no slip ring, so continuous wrist rotation is a hard constraint. | Gazebo, from `explorer_stack` | `ros2 launch cartesian_manager explorer.launch.py use_simulation:=true` |
-| **Kinova Gen3** | Lab reference arm for the same controllers without Explorer's hardware constraints. Robotiq 2F-85 gripper. | `ros2_control` fake hardware | `ros2 launch cartesian_manager kinova.launch.py use_simulation:=true gui:=false` |
+| **Orthopus Explorer** | The project's arm, mounted on the wheelchair. Custom assistive arm with CAN/VESC actuators; no slip ring, so continuous wrist rotation is a hard constraint. | Gazebo | `ros2 launch cartesian_manager explorer.launch.py use_simulation:=true` |
+| **Kinova Gen3** | Lab reference arm to develop and compare controllers without Explorer's hardware constraints. Robotiq 2F-85 gripper. | `ros2_control` fake hardware | `ros2 launch cartesian_manager kinova.launch.py use_simulation:=true gui:=false` |
 
-Both launch files bring up the robot base, `qontrol_controller`, the gripper
-controller, `cartesian_manager_node`, `joy_node` and `joystick_mapper`. The
-per-robot differences live in `cartesian_manager/bringup/config/*_params.yaml`
-and in the controller YAML, not in duplicated code. Bloom ships an **Explorer
-Manager** and a **Kinova Manager** app on top of the same screens.
-
-The Franka FR3 was supported by the legacy `controllers` path and has not been
-ported to `cartesian_manager`.
-
-## Bloom, The Operator Interface
-
-[Bloom](https://github.com/ISIR-EXTENDER/bloom) builds accessible web interfaces
-for robots and runs them in a focused kiosk. Compose screens in the **Builder**,
-open the saved app as a role on a tablet or desktop, and reach the robot through
-a policy-checked backend.
-
-| Builder | Explorer Manager | Kinova Manager |
-| --- | --- | --- |
-| ![Bloom screen builder](https://raw.githubusercontent.com/ISIR-EXTENDER/bloom/main/docs/assets/screenshots/builder-screen-canvas.png) | ![Explorer Manager Drive screen](https://raw.githubusercontent.com/ISIR-EXTENDER/bloom/main/docs/assets/screenshots/runtime-explorer-drive.png) | ![Kinova Manager Drive screen](https://raw.githubusercontent.com/ISIR-EXTENDER/bloom/main/docs/assets/screenshots/runtime-kinova-drive.png) |
-
-What ships today:
-
-- **Builder and kiosk Runtime** for shared application, screen, widget, theme,
-  profile and guardrail models. Builder and Runtime render the same screen model.
-- **Touch, keyboard and gamepad** Cartesian input composed into one 6-DoF command,
-  streamed at 30 Hz with neutral commands sent immediately on release.
-- **Accessible profiles**: single-switch scan-step and scan-plus-dwell
-  teleoperation (awaiting validation with the target devices), and English,
-  Spanish and French runtime shells.
-- **Safety in the backend**: allowlists, rate limits, validation, audit log, one
-  command owner per session, and a **latched STOP** every operator can press.
-- **ROS 2 adapters** for `cartesian_manager`, generic topic publishing, service
-  calls, topic discovery, and a camera path on its own socket.
-- **Explorer and Kinova Manager** workflows: Joystick Lab, Drive, Positions,
-  Robot feedback, Command sources, plus a read-only Supervisor mirror and
-  Bloom Debug with live joint states and the Jacobian.
-- **CI that runs against the simulations**: `npm run e2e:sim` drives the
-  Explorer and Kinova sims and checks each effect on the ROS graph.
-
-The [five-minute walkthrough](https://github.com/ISIR-EXTENDER/bloom/blob/main/docs/assets/demo/bloom-demo.mp4)
-creates an app, drives the arm, sends it home, switches frames, latches STOP and
-reads the Jacobian. Nothing is mocked.
-
-> [!CAUTION]
-> Start with simulation or fake hardware. Bloom's STOP latches the software
-> command path; it does not replace the robot's hardware emergency stop,
-> controller limits, or the lab safety procedure.
+The per-robot differences live in configuration, not in duplicated code: one
+`cartesian_manager` parameter file and one controller file per arm.
 
 ## Quick Start
 
@@ -252,10 +215,10 @@ ros2 topic pub --once /mode_request std_msgs/msg/String "{data: 'geometric/snake
 ros2 topic pub --once /mode_request std_msgs/msg/String "{data: 'behaviour/joint_target/home'}"
 ```
 
-### 3. Bloom
+### 3. Tablet interface
 
-Bloom needs Node.js 24 LTS, npm 11+, Python 3.10 to 3.12 and `uv`. Clone it next
-to the workspace:
+The tablet interface is Bloom. It needs Node.js 24 LTS, npm 11+, Python 3.10 to
+3.12 and `uv`. Clone it next to the workspace:
 
 ```bash
 git clone https://github.com/ISIR-EXTENDER/bloom.git
@@ -292,6 +255,11 @@ is the operator's page.
   `ros2_control`.
 
 </details>
+
+> [!CAUTION]
+> Start with simulation or fake hardware. Software STOPs latch the command path;
+> they do not replace the arm's hardware emergency stop, controller limits, or
+> the lab safety procedure. The user sits inside the arm's workspace.
 
 ## Command Contract
 
@@ -330,58 +298,120 @@ controller set the real speed.
 python3 scripts/capture_joint_target.py boire --merge
 ```
 
-## What's New
+## Legacy Architecture
 
-Snapshot of default branches, refreshed on **2026-09-24**.
+Until summer 2026 the stack was built around a family of `ros2_control`
+controllers, one per strategy, each running on top of a per-robot hardware
+interface:
 
-| Repository | Latest activity |
-| --- | --- |
-| [`bloom`](https://github.com/ISIR-EXTENDER/bloom) | `0ca427f` · point the command preset library at the current stack (after v0.2.0) |
-| [`extender_ui`](https://github.com/ISIR-EXTENDER/extender_ui) | `fc59d68` · mark extender_ui legacy in favour of Bloom (#34) |
-| [`input_interfaces`](https://github.com/ISIR-EXTENDER/input_interfaces) | `44296f6` · end tablet_interface support |
-| [`extender_workspace`](https://github.com/ISIR-EXTENDER/extender_workspace) | `3d3c235` · make the Kinova stack optional (#9) |
-| [`cartesian_manager`](https://github.com/ISIR-EXTENDER/cartesian_manager) | `d9a1fa5` · lambda-to-method fix (#9), hybrid frame and rate limiter earlier in September |
-| [`tools`](https://github.com/ISIR-EXTENDER/tools) | `a612737` · apriltag_detector on ROS 2 Jazzy (#11) |
-| [`controllers`](https://github.com/ISIR-EXTENDER/controllers) | `99fcbdb` · snake demo controller (legacy path) |
-| [`apps-petanque`](https://github.com/ISIR-EXTENDER/apps-petanque) | Rebased onto `cartesian_manager` through Bloom's Petanque app, 2026-09-23 |
+```text
+joystick_interface / tablet_interface (extender_ui)
+  -> /teleop_cmd  (extender_msgs/msg/TeleopCommand: twist + mode)
+  -> one controller from `controllers` or `sandbox_controller`
+  -> robot_interfaces  (FrankaCartesianVelocity, KinovaCartesianVelocity, ExplorerCartesianVelocity)
+  -> robot hardware or simulation
+```
 
-Active directions:
+What worked on that path:
 
-| Area | Status |
-| --- | --- |
-| Bloom on the target tablets and robots | Simulations are covered by `npm run e2e:sim`; hardware acceptance, assistive devices and native-speaker checks are open. |
-| Tablet layouts | 1024×600 collapse layouts, paired desktop apps and the save-a-pose flow are in the [UX design handoff](https://github.com/ISIR-EXTENDER/bloom/blob/main/docs/ux-design-handoff.md). |
-| Control modes | `translation` and `orientation` shapers are planned next to `snake`; snake versus a hybrid mode is under comparison. |
-| Safety zones | Qontrol implements Cartesian plane constraints; wiring them into `qontrol_controller` is the prerequisite before Bloom can expose them. |
-| Explorer impedance | Available in `explorer_stack` at the joint level; a Cartesian impedance branch in the manager is not started. |
-| Visual servoing | Driven from Bloom on the new architecture; `apriltag_detector` and `visual_servoing` both build on Jazzy. |
+| Capability | Package | Robots |
+| --- | --- | --- |
+| Cartesian velocity teleoperation with filtering, rate limiting and base/EE frames | `cartesian_velocity` | Franka FR3, Kinova Gen3, Explorer |
+| Shared control with kinematic guides: user velocity blended with goal-directed assistance, static and dynamic goals, confidence tracking, RViz markers | `kinematic_guides_cartesian_velocity` | Franka FR3, Kinova Gen3, Explorer |
+| Smooth joint-space point-to-point moves on `/joint_position_desired` | `joint_position_interpolator` | Explorer |
+| Snake-style teleoperation demo | `cartesian_velocity` (`explorer_snake.launch.py`) | Explorer |
+| Template for new algorithms, feedback on `~/ee_pose` and `~/joint_pose` | `sandbox_controller` | Explorer, Kinova Gen3 |
+| AprilTag goals feeding shared control through `/shared_control/dynamic_goals` | `apriltag_detector` + `kinematic_guides_cartesian_velocity` | all three |
 
-> This dashboard is a manual snapshot. Check each repository for live history
-> before starting integration work.
+### Why it changed
+
+We adopted **`qontrol_controller` as the main controller**. Its QP solves for
+joint velocities that best follow the commanded twist *while* respecting joint
+position and velocity limits, so safety limits are part of the optimisation
+rather than a clamp after it. That matters most on the Explorer, where joint
+limits and the missing slip ring are hard constraints.
+
+One QP controller per robot made the per-strategy controllers redundant. The
+strategies moved one level up, into [`cartesian_manager`](https://github.com/ISIR-EXTENDER/cartesian_manager):
+inputs are summed there, modes such as `snake` are shapers there, and named
+poses become one-shot joint targets that the QP executes. The contract changed
+with it: `/teleop_cmd` with a mode field became `TwistStamped` on
+`/joystick_cartesian_command` plus `String` requests on `/mode_request`, and
+feedback moved from `/sandbox_controller/*` to `/ee_pose`, `/ee_velocity`,
+`/ee_jac` and `/joint_states`.
+
+Shared control with kinematic guides and Franka FR3 support have not been
+ported to the new architecture yet.
+
+### Running the legacy flow
+
+The legacy flow targets **Ubuntu 22.04 and ROS 2 Humble**, so use a Humble
+machine or container. Workspace revision
+[`da55bc9`](https://github.com/ISIR-EXTENDER/extender_workspace/tree/da55bc9)
+is the last one whose manifest imports the old repositories.
+
+```bash
+git clone https://github.com/ISIR-EXTENDER/extender_workspace.git extender_legacy
+cd extender_legacy
+git checkout da55bc9
+vcs import src < extender.repos --workers 1
+uv sync --extra ros-build --extra dev
+
+source /opt/ros/humble/setup.bash
+rosdep install --from-paths src --ignore-src -r -y
+colcon build --symlink-install --packages-up-to robot_interfaces
+source install/setup.bash
+colcon build --symlink-install
+```
+
+Then pick one controller:
+
+```bash
+# Cartesian velocity teleoperation with the joystick
+ros2 launch cartesian_velocity explorer_cartesian_velocity_teleop.launch.py can_port:=can0 use_joystick_interface:=true
+ros2 launch cartesian_velocity kinova_gen3_teleop_full_bringup.launch.py
+ros2 launch cartesian_velocity franka_cartesian_velocity_teleop.launch.py
+
+# Shared control with kinematic guides
+ros2 launch kinematic_guides_cartesian_velocity shared_control_explorer.launch.py can_port:=can0
+ros2 launch kinematic_guides_cartesian_velocity shared_control_kinova.launch.py
+
+# Sandbox controller, in simulation
+ros2 launch sandbox_controller explorer.launch.py use_simulation:=true
+```
+
+For the tablet, run the old backend and app, then open **Sandbox V0.0**:
+
+```bash
+cd src/input_interfaces/tablet_interface && make run-node   # ws://127.0.0.1:8765/ws/control
+cd src/extender-ui && npm install && npm run dev
+```
+
+Each package README in [`controllers`](https://github.com/ISIR-EXTENDER/controllers)
+lists its parameters and topics.
 
 ## Team
 
-| Name | GitHub | Works on |
+**Principal Investigator at ISIR:** Guillaume Morel.
+
+| Name | GitHub | Role |
 | --- | --- | --- |
-| Susana Sanchez Restrepo | [`@ssrpo`](https://github.com/ssrpo) · [suziesr.xyz](https://suziesr.xyz/) | Bloom, workspace, `apriltag_detector`, this profile. Organisation maintainer. |
-| Mégane Millan | [`@MegMll`](https://github.com/MegMll) | `cartesian_manager`, `joystick_mapper`, `qontrol_controller` integration, `extender.repos`. Organisation maintainer. |
-| Etienne Moullet | [`@emoullet`](https://github.com/emoullet) | `signal_processing`, `mediapipe_mocap`. |
-| Walid Oubraim | [`@woubraim`](https://github.com/woubraim) | `cartesian_manager` contributions. |
-| `technodroide` | [`@technodroide`](https://github.com/technodroide) | `tools`, `input_interfaces`, `cartesian_manager` contributions. |
+| Susana Sanchez Restrepo | [`@ssrpo`](https://github.com/ssrpo) · [suziesr.xyz](https://suziesr.xyz/) | Maintainer |
+| Mégane Millan | [`@MegMll`](https://github.com/MegMll) | Maintainer |
+| Etienne Moullet | [`@emoullet`](https://github.com/emoullet) | Contributor |
+| Walid Oubraim | [`@woubraim`](https://github.com/woubraim) | Contributor |
+| Robin Gibaud | [`@technodroide`](https://github.com/technodroide) | Contributor |
 
 Ask a maintainer for organisation access. Most work needs `extender_workspace`,
-`cartesian_manager`, `input_interfaces`, `tools` and `bloom`; controller work
-also needs `qontrol_controller`, and the demonstrator needs `apps-petanque`.
+`cartesian_manager`, `input_interfaces` and `tools`; controller work also needs
+`qontrol_controller`, and the demonstrator needs `apps-petanque`.
 
 ## Contributing
-
-Repositories are kept easy to review, easy to test, and safe to integrate
-during robot weeks. A repository README may add stricter local rules.
 
 <details>
 <summary>Branches, commits and pull requests</summary>
 
-- Branch from an up-to-date `main` with a short name: `feat/joystick-lab-frames`,
+- Branch from an up-to-date `main` with a short name: `feat/hybrid-frame`,
   `fix/rate-limiter-reset`, `docs/workspace-onboarding`.
 - Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/):
   `feat(cartesian_manager): add hybrid frame`, imperative, lowercase, no period.
@@ -396,20 +426,19 @@ during robot weeks. A repository README may add stricter local rules.
 
 - Write READMEs, comments, PR descriptions and shared docs in English.
 - Update the README when adding a topic, a mode, a launch flow, a dependency,
-  a widget, or a behaviour an operator must understand. Include commands,
-  expected URLs and common failure modes.
+  or a behaviour an operator must understand. Include commands and common
+  failure modes.
 - Keep robot-specific values in configuration, not in duplicated code.
-- Do not add a ROS message type when a generic message or a typed payload works.
+- Do not add a ROS message type when a generic message works.
 - Workspace Python dependencies live in `extender_workspace/pyproject.toml`;
-  commit `pyproject.toml` and `uv.lock` together. Frontend changes commit
-  `package.json` with its lockfile.
+  commit `pyproject.toml` and `uv.lock` together.
 - Never commit `build*`, `install*`, `log*`, `.venv/`, `node_modules/`, rosbags,
   camera dumps or machine-specific files.
 
 </details>
 
 <details>
-<summary>Validation</summary>
+<summary>Validation and robot safety</summary>
 
 ```bash
 git diff --check
@@ -417,26 +446,9 @@ uv lock --locked
 colcon build --symlink-install --packages-select <package>
 ```
 
-Bloom runs everything CI runs with one command, and warns when the working tree
-is dirty:
-
-```bash
-npm run verify
-npm run e2e:sim -- --robot explorer   # or kinova
-```
-
-Include screenshots for UI changes that affect layout or operator workflow.
-
-</details>
-
-<details>
-<summary>Robot safety</summary>
-
 - Treat every robot-facing change as safety-sensitive. Make scaling, mode
   changes, enable/disable behaviour and topic names explicit in code and docs.
 - Validate in simulation or fake hardware before touching an arm.
-- Keep operator state visible: active mode, effective frame, stale topics,
-  gripper state, STOP state.
 - Explorer has no slip ring and runs a QP with hard joint limits. Do not carry
   Kinova assumptions about free rotation onto it.
 
@@ -451,19 +463,18 @@ Include screenshots for UI changes that affect layout or operator workflow.
 | Not declared | `extender_workspace`, `cartesian_manager`, `extender_ui`, `apps-petanque`, `explorer_stack` fork |
 
 Add an explicit `LICENSE` file before reusing or packaging an undeclared
-repository outside the project, and check each repository's current file before
-integrating with external code. The external descriptions keep their own
-licenses: ORTHOPUS `explorer_stack`, Kinova `ros2_kortex`, PickNik
-`ros2_robotiq_gripper`.
+repository outside the project. The external descriptions keep their own
+licenses.
 
-## Research And Credits
+## Press And Links
 
-- **Lab**: [Institut des Systèmes Intelligents et de Robotique](https://www.isir.upmc.fr/)
-  (ISIR), Sorbonne Université / CNRS, Paris.
-- **Project**: ANR DEFI TRANSFERT project Extender, developed with
-  [Orthopus](https://github.com/ORTHOPUS-EXPLORER).
-- **Demonstrator**: PEPR Robotics Petanque assistive robotics demonstrator.
-- **Control**: the [Qontrol](https://auctus-team.gitlabpages.inria.fr/components/control/qontrol/index.html)
-  QP library from the INRIA Auctus team, and
-  [Pinocchio](https://stack-of-tasks.github.io/pinocchio/) for robot models.
-- **Robots**: Explorer by Orthopus; Kinova Gen3 with the Robotiq 2F-85 gripper.
+- [Extender at AUCTUS, Inria](https://auctus-team.gitlabpages.inria.fr/projects/extender/), with the project news and integration weeks.
+- [ISIR article](https://www.isir.upmc.fr/actualites/controler-un-bras-robot-pour-le-handicap-le-projet-extender-laureat-du-concours-national-dinnovation-en-robotique/) and the [French press release](https://www.isir.upmc.fr/wp-content/uploads/2025/01/le-projet-EXTENDER-laureat-du-Concours-national-dinnovation-en-robotique.pdf).
+- [CNRS article](https://www.cnrs.fr/fr/actualite/extender-piloter-un-bras-robotique-pour-developper-lautonomie-des-personnes-en-situation).
+- [Sorbonne Université press release](https://www.sorbonne-universite.fr/en/press-releases/extender-project-helping-people-disabilities-operate-robotic-arm), in English.
+- [Orthopus](https://orthopus.com/) and the [Explorer stack](https://github.com/ORTHOPUS-EXPLORER).
+- [Qontrol](https://auctus-team.gitlabpages.inria.fr/components/control/qontrol/index.html) and [Pinocchio](https://stack-of-tasks.github.io/pinocchio/).
+
+<p align="center">
+  <sub>ISIR, Institut des Systèmes Intelligents et de Robotique · Sorbonne Université / CNRS · Paris</sub>
+</p>
