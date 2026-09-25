@@ -400,7 +400,7 @@ lists its parameters and topics.
 | Mégane Millan | [`@MegMll`](https://github.com/MegMll) | Maintainer |
 | Etienne Moullet | [`@emoullet`](https://github.com/emoullet) | Contributor |
 | Walid Oubraim | [`@woubraim`](https://github.com/woubraim) | Contributor |
-| `technodroide` | [`@technodroide`](https://github.com/technodroide) | Contributor |
+| Robin Gibaud | [`@technodroide`](https://github.com/technodroide) | Contributor |
 
 Ask a maintainer for organisation access. Most work needs `extender_workspace`,
 `cartesian_manager`, `input_interfaces` and `tools`; controller work also needs
